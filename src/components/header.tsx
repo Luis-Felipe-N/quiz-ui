@@ -1,6 +1,4 @@
-import Image from 'next/image'
-import { Input } from './input'
-import { Avatar, AvatarFallback, AvatarImage } from './avatar'
+import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 
 export function Header() {
   return (
