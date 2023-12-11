@@ -7,24 +7,19 @@ const nextAuthOptions: NextAuthOptions = {
     CredentialsProvider({
       name: 'Credentials',
       credentials: {
-        username: { label: 'Usuário', type: 'text' },
+        email: { label: 'Email', type: 'email' },
         password: { label: 'Senha', type: 'password' },
       },
       async authorize(credentials) {
-        console.log('asda')
-
-        const { data } = await api.post('/sessions', {
-          username: credentials?.username,
+        const { data } = await api.post('sessions', {
+          email: credentials?.email,
           password: credentials?.password,
         })
-
-        console.log(data)
 
         const { token } = data
 
         api.defaults.headers.Authorization = `Bearer ${token}`
-        const { data: responseData } = await api.get('/me')
-        console.log(responseData)
+        const { data: responseData } = await api.get('me')
 
         if (responseData.user) {
           return responseData.user
@@ -36,6 +31,18 @@ const nextAuthOptions: NextAuthOptions = {
   ],
   pages: {
     signIn: '/',
+  },
+  callbacks: {
+    async jwt({ token, user }) {
+      user && (token.user = user)
+
+      return token
+    },
+    async session({ session, token }) {
+      session.user = token.user as any
+
+      return session
+    },
   },
 }
 

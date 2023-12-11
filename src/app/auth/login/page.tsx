@@ -45,7 +45,7 @@ export default function Login() {
     <>
       <div className="p-24">
         <div>
-          <h1 className="text-2xl font-bold">/me-quiz</h1>
+          <strong>/me-quiz</strong>
         </div>
 
         <div className="text-center mt-4 flex flex-col justify-center h-full max-w-xl mx-auto">

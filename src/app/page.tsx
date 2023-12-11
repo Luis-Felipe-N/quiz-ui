@@ -16,7 +16,7 @@ export default function Home() {
         <section className="mt-12">
           <h3 className="text-xl font-semibold">Recentes</h3>
           <div className="mt-4 ">
-            <div className="rounded-3xl overflow-hidden bg-white flex p-4">
+            <div className="rounded-3xl overflow-hidden bg-slate-50 flex p-4">
               <div>
                 <Image
                   width={385}

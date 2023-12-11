@@ -3,9 +3,8 @@
 import { Header } from '@/components/header'
 import { Skeleton } from '@/components/ui/skeleton'
 import { api } from '@/lib/api'
-import { Category, Quiz, Quiz } from '@/types'
+import { Category, Quiz } from '@/types'
 import { useQuery } from '@tanstack/react-query'
-import { Search } from 'lucide-react'
 import Image from 'next/image'
 
 interface QuizzesProps {
@@ -15,13 +14,15 @@ interface QuizzesProps {
 }
 
 export default function Quizzes({ params }: QuizzesProps) {
-  const { data: category, isLoading } = useQuery<Category>({
-    queryKey: ['category'],
-    queryFn: async (): Promise<Category> => {
-      const response = await api.get(`categories/${params.slug}/`)
-      return response.data.category
+  const { data: category, isLoading: isLoadingCategories } = useQuery<Category>(
+    {
+      queryKey: ['category'],
+      queryFn: async (): Promise<Category> => {
+        const response = await api.get(`category/${params.slug}/`)
+        return response.data.category
+      },
     },
-  })
+  )
 
   const { data: quizzes, isLoading: isLoadingQuizzes } = useQuery<Quiz[]>({
     queryKey: ['quizzes'],
@@ -37,19 +38,29 @@ export default function Quizzes({ params }: QuizzesProps) {
       <Header />
 
       <main className="flex flex-col max-w-5xl m-auto p-24 px-8 text-zinc-800 ">
-        {category ? (
+        {isLoadingCategories ? (
+          <Skeleton className="w-full h-[348px]" />
+        ) : category ? (
           <div
-            className="text-zinc-100 pt-60 pb-8 px-8 rounded-2xl bg-cover bg-center"
+            className="text-zinc-100 pt-60 pb-8 px-8 rounded-2xl bg-cover bg-center overflow-hidden"
             style={{
               backgroundImage: `url("${category?.cover}")`,
             }}
           >
-            <strong className="text-xl">{category?.title}</strong>
-            <p>{category?.description}</p>
+            <div
+              style={{
+                background: `#00000066`,
+                boxShadow: `0 40px 101px 122px #00000066`,
+              }}
+            >
+              <h1 className="text-3xl font-bold">{category.title}</h1>
+              <p>{category.description}</p>
+            </div>
           </div>
         ) : (
-          <Skeleton className="w-full h-[348px]" />
+          <h1>a</h1>
         )}
+
         <section className="mt-12">
           <div className="flex justify-between">
             <div>
@@ -80,8 +91,8 @@ export default function Quizzes({ params }: QuizzesProps) {
                     />
                     <figcaption
                       style={{
-                        background: `${quiz.color}c2`,
-                        boxShadow: `0 0 101px 84px ${quiz.color}c2`,
+                        background: `#00000066`,
+                        boxShadow: `0 40px 101px 122px #00000066`,
                       }}
                       className="absolute z-10 bottom-8 left-1/2 -translate-x-1/2 font-bold text-white"
                     >
