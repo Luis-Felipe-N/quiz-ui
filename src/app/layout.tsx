@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Inter, Oswald } from 'next/font/google'
 import './globals.css'
 import { QueryProvider } from '@/providers/useQueryProvider'
+import NextAuthSessionProvider from '@/providers/sessionProvider'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -22,7 +23,9 @@ export default function RootLayout({
       <body
         className={`${inter.className} ${oswald.variable} bg-orange-50 text-zinc-800`}
       >
-        <QueryProvider>{children}</QueryProvider>
+        <NextAuthSessionProvider>
+          <QueryProvider>{children}</QueryProvider>
+        </NextAuthSessionProvider>
       </body>
     </html>
   )

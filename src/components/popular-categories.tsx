@@ -25,12 +25,17 @@ export function PopularCategories() {
             className="rounded-3xl overflow-hidden"
           >
             <div
-              className="text-zinc-100 h-80 px-8 pb-8 rounded-2xl bg-cover bg-center  flex items-end"
+              className="text-zinc-100 h-80 px-8 pb-8 rounded-2xl bg-cover bg-center flex items-end"
               style={{
                 backgroundImage: `url("${category.cover}")`,
               }}
             >
-              <div className="">
+              <div
+                style={{
+                  background: `${category.color}c2`,
+                  boxShadow: `0 40px 101px 122px ${category.color}c2`,
+                }}
+              >
                 <h3 className="text-3xl font-bold">{category.title}</h3>
                 <p className="text-sm mt-2 font-oswald">
                   {category.description}

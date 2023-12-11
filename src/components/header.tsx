@@ -1,10 +1,13 @@
+import Link from 'next/link'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 
 export function Header() {
   return (
     <header className="max-w-5xl w-full m-auto p-8 flex items-center justify-between gap-8">
       <div>
-        <h1 className="text-3xl font-bold">Quiz</h1>
+        <Link href={'/'}>
+          <h1 className="text-2xl font-bold">/me-quiz</h1>
+        </Link>
       </div>
       <div className="flex items-center gap-2">
         <div className="flex flex-col text-end">
