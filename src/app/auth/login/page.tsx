@@ -1,14 +1,14 @@
 'use client'
 
 import Link from 'next/link'
-// import { Input } from '@/components/form/input'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { AxiosError } from 'axios'
+
 import { Loader2 } from 'lucide-react'
 import { signIn } from 'next-auth/react'
 import { Input } from '@/components/ui/input'
+import { useRouter } from 'next/navigation'
 
 const loginFormSchema = z.object({
   email: z.string(),
@@ -25,19 +25,23 @@ export default function Login() {
     setError,
   } = useForm<loginFormData>({ resolver: zodResolver(loginFormSchema) })
 
-  async function handleCreateAccount(credentials: loginFormData) {
-    try {
-      const response = await signIn('credentials', {
-        email: credentials.email,
-        password: credentials.password,
-        redirect: false,
-      })
+  const router = useRouter()
 
+  async function handleCreateAccount(credentials: loginFormData) {
+    const response = await signIn('credentials', {
+      email: credentials.email,
+      password: credentials.password,
+      redirect: false,
+    })
+
+    if (response?.ok) {
+      router.replace('/')
+    } else {
       console.log(response)
-    } catch (error) {
-      if (error instanceof AxiosError) {
-        setError('root', { message: error.response?.data.message })
-      }
+      setError('root', {
+        message:
+          'Credenciais incorretas. Por favor, verifique seu e-mail e senha.',
+      })
     }
   }
 
@@ -94,16 +98,9 @@ export default function Login() {
             )}
           </form>
 
-          {/* <div className="mt-8">
-            <span className="text-zinc-400">OU</span>
-            <button className="mt-8 px-4 h-14 w-full rounded-full font-bold border-2 border-zinc-800 text-zinc-200">
-              Entrar com Google
-            </button>
-          </div> */}
-
           <p className="mt-16">
             Não possui uma conta?{' '}
-            <Link className="text-red-400 hover:underline" href={'/register'}>
+            <Link className="text-red-400 underline" href={'/register'}>
               Faça seu cadastro
             </Link>
           </p>
