@@ -20,7 +20,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-BR">
-      <body className={`${inter.className}`}>
+      <body className={`${inter.className} ${oswald.variable} text-zinc-800`}>
         <NextAuthSessionProvider>
           <QueryProvider>{children}</QueryProvider>
         </NextAuthSessionProvider>

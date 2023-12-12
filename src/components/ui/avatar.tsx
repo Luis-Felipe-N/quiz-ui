@@ -9,6 +9,7 @@ const SIZE_AVATAR = {
   sm: 'h-10 w-10',
   md: 'h-14 w-14',
   lg: 'h-20 w-20',
+  xl: 'h-32 w-32',
 }
 
 type SizeAvatar = keyof typeof SIZE_AVATAR

@@ -9,7 +9,6 @@ export default function Home() {
       <main className="flex flex-col max-w-5xl m-auto p-24 px-8">
         <section>
           <h3 className="text-xl font-semibold">Categorias populares 🔥</h3>
-
           <PopularCategories />
         </section>
 
