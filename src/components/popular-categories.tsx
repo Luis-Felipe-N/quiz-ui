@@ -24,7 +24,7 @@ export function PopularCategories() {
         categories.map((category) => (
           <Link
             key={category.slug}
-            href={`/quizzes/${category.slug}`}
+            href={`/quiz/${category.slug}`}
             className="rounded-3xl overflow-hidden"
           >
             <div
