@@ -4,11 +4,12 @@ import { Header } from '@/components/header'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
-import { uploadImage } from '@/lib/imgur/upload-image'
+import { UploadImage } from '@/components/upload-image'
+import { uploadImage } from '@/lib/upload/image'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { useForm } from 'react-hook-form'
-import { z } from 'zod'
+import { isAborted, z } from 'zod'
 
 const createQuizSchema = z.object({
   title: z.string(),
@@ -21,32 +22,26 @@ const createQuizSchema = z.object({
 type createQuizData = z.infer<typeof createQuizSchema>
 
 export default function Create() {
-  const { register, handleSubmit, watch } = useForm<createQuizData>({
+  const { register, watch } = useForm<createQuizData>({
     resolver: zodResolver(createQuizSchema),
   })
+
+  const coverImageRef = useRef<HTMLDivElement>(null)
 
   async function handleCreateQuiz(data: createQuizData) {
     console.log(data)
   }
 
+  const coverImage = watch('coverImage') // you can supply default value as second argument
+
   useEffect(() => {
-    const subscription = watch((value, { name, type }) => {
+    const subscription = watch(async (value, { name, type }) => {
       if (name === 'coverImage') {
-        const reader = new FileReader()
-        reader.readAsDataURL(value.coverImage[0])
-        reader.onload = async function () {
-          if (typeof reader.result === 'string') {
-            const base64Data = reader.result!.split(',')[1]
-
-            const coverURL = await uploadImage(base64Data)
-
-            console.log(coverURL)
-          }
-        }
+        const data = await uploadImage(value.coverImage[0])
       }
     })
     return () => subscription.unsubscribe()
-  }, [watch])
+  }, [watch, coverImageRef])
 
   return (
     <>
@@ -61,15 +56,13 @@ export default function Create() {
                   Imagem de banner
                 </span>
 
-                <div className="bg-zinc-100 h-96 rounded-2xl flex items-center justify-center border-dashed border-2 border-slate-400">
-                  <span className="font-semibold text-slate-700">
-                    <span className="underline">
-                      Busque uma imagem em seus arquivos aqui.
-                    </span>
-                  </span>
-                </div>
+                <UploadImage file={coverImage} />
 
-                <input {...register('coverImage')} type="file" />
+                <input
+                  {...register('coverImage')}
+                  type="file"
+                  className="hidden"
+                />
               </Label>
             </div>
             <div className="flex flex-col space-y-1.5">
@@ -79,7 +72,7 @@ export default function Create() {
                 </span>
                 <Input
                   {...register('title')}
-                  className="h-12 px-4"
+                  className="h-12 px-4 text-sm font-normal"
                   placeholder="Titulo do quiz"
                 />
               </Label>
