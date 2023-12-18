@@ -1,12 +1,25 @@
 import { Header } from '@/components/header'
 import { PopularCategories } from '@/components/popular-categories'
+import { Button } from '@/components/ui/button'
 import Image from 'next/image'
+import Link from 'next/link'
 
 export default function Home() {
   return (
     <>
       <Header />
-      <main className="flex flex-col max-w-5xl m-auto p-24 px-8">
+      <main className="flex flex-col max-w-5xl m-auto p-24 pt-12 px-8">
+        <section className="bg-red-500 p-12 rounded-2xl mb-12">
+          <div className="flex flex-col items-start gap-8">
+            <strong className="text-5xl font-oswald text-zinc-50">
+              Contribua com a <br /> comunidade
+            </strong>
+            <Link href={'/quiz/create'}>
+              <Button variant="secondary">Crie um quiz</Button>
+            </Link>
+          </div>
+        </section>
+
         <section>
           <h3 className="text-xl font-semibold">Categorias populares 🔥</h3>
           <PopularCategories />
@@ -34,7 +47,7 @@ export default function Home() {
                     </p>
                   </div>
 
-                  <button className="bg-red-400 font-oswald text-sm font-semibold h-12 px-8 rounded-full text-zinc-50">
+                  <button className="bg-red-400 font-oswald text-sm font-semibold rounded-full h-12 px-8 text-zinc-50">
                     Jogar
                   </button>
                 </div>

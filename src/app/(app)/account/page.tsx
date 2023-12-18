@@ -21,8 +21,6 @@ export default function Quizzes({ params }: QuizzesProps) {
 
   const router = useRouter()
 
-  console.log(status)
-
   if (status === 'unauthenticated') {
     router.replace('/')
   }
