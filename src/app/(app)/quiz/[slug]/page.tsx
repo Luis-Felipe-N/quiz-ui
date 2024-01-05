@@ -31,7 +31,6 @@ export default function Quizzes({ params }: QuizzesProps) {
       return response.data.quizzes
     },
   })
-  console.log(category, quizzes)
 
   return (
     <>

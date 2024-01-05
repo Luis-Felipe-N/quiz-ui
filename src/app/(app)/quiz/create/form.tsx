@@ -13,6 +13,8 @@ import { FormProvider, useForm } from 'react-hook-form'
 
 import { z } from 'zod'
 import { InputCategories } from '@/components/create-quiz/categories'
+import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
 
 const createQuizSchema = z.object({
   title: z.string(),
@@ -31,8 +33,14 @@ export function CreateQuizForm() {
 
   const { register, handleSubmit } = form
 
+  const { data: session, status } = useSession()
+  const router = useRouter()
+
+  if (status === 'unauthenticated') {
+    router.push('/')
+  }
+
   async function handleCreateQuiz(data: createQuizData) {
-    console.log(data)
     const { color, cover, description, title } = data
 
     const response = await api.post('/category/historia/quiz', {
@@ -40,6 +48,7 @@ export function CreateQuizForm() {
       cover,
       description,
       title,
+      creatorId: session?.user.id,
     })
   }
 

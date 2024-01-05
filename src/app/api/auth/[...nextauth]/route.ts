@@ -2,6 +2,8 @@ import { api } from '@/lib/api'
 import NextAuth, { NextAuthOptions } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 
+import { cookies } from 'next/headers'
+
 const nextAuthOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
@@ -22,6 +24,8 @@ const nextAuthOptions: NextAuthOptions = {
         const { data: responseData } = await api.get('me')
 
         if (responseData.user) {
+          cookies().set('session-token', token)
+
           return responseData.user
         } else {
           return null

@@ -1,4 +1,5 @@
 import { Header } from '@/components/header'
+import { MyQuizzes } from '@/components/my-quizzes'
 import { PopularCategories } from '@/components/popular-categories'
 import { Button } from '@/components/ui/button'
 import Image from 'next/image'
@@ -19,6 +20,8 @@ export default function Home() {
             </Link>
           </div>
         </section>
+
+        <MyQuizzes />
 
         <section>
           <h3 className="text-xl font-semibold">Categorias populares 🔥</h3>

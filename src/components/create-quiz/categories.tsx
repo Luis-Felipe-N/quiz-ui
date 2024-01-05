@@ -26,39 +26,37 @@ export function InputCategories() {
       {isLoading ? (
         <Skeleton></Skeleton>
       ) : categories ? (
-        <Swiper
-          slidesPerView={4}
-          spaceBetween={0}
-          pagination={{
-            clickable: true,
-          }}
-        >
+        <div className="flex">
           {categories.map((category) => (
-            <SwiperSlide key={category.slug} className="w-64">
-              <div
-                className="text-zinc-100 h-80 w-64 px-8 pb-8 rounded-2xl bg-cover bg-center flex items-end overflow-hidden"
-                style={{
-                  backgroundImage: `url("${category.cover}")`,
-                }}
-              >
+            <div key={category.slug} className="">
+              <Label>
                 <div
+                  className="text-zinc-100 h-80 w-64 px-8 pb-8 rounded-2xl bg-cover bg-center flex items-end overflow-hidden"
                   style={{
-                    background: `#0000007d`,
-                    boxShadow: `0 40px 101px 122px #0000007d`,
+                    backgroundImage: `url("${category.cover}")`,
                   }}
                 >
-                  <h3 className="text-3xl font-bold">{category.title}</h3>
-                  <p className="text-sm mt-2 font-oswald">
-                    {category.description}
-                  </p>
+                  <div
+                    style={{
+                      background: `#0000007d`,
+                      boxShadow: `0 40px 101px 122px #0000007d`,
+                    }}
+                  >
+                    <h3 className="text-3xl font-bold">{category.title}</h3>
+                    <p className="text-sm mt-2 font-oswald">
+                      {category.description}
+                    </p>
+                  </div>
+                  <input
+                    type="radio"
+                    {...register('categorie')}
+                    // className="hidden"
+                  />
                 </div>
-                <input type="radio" {...register('categorie')} />
-              </div>
-              {/* <Label>
-              </Label> */}
-            </SwiperSlide>
+              </Label>
+            </div>
           ))}
-        </Swiper>
+        </div>
       ) : (
         <h1>Sem Categorias</h1>
       )}
